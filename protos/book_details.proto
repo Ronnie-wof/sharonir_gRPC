@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+
+service InventoryService {
+  rpc CreateBook(Book) returns (createBookOutput) {}
+  rpc GetBook(getBookInput) returns (Book) {}
+}
+// protocol buffer for Book
+message Book {
+    optional string ISBN = 1;
+    optional string title = 2;
+    optional Author author = 3;
+    optional Genre genre = 4;
+    optional int32 year = 5;
+}
+// Genre enum
+enum Genre {
+    THRILLER = 0;
+    MYSTERY = 1;
+    COMEDY = 2;
+    HORROR = 3;
+    ROMANCE = 4;
+  }
+  // Author definition
+  message Author {
+    optional string author = 2;
+  }
+  // InventoryItem definition
+  message InventoryItem {
+    optional int32 inventoryNumber = 1;
+    oneof refer {
+      Book book = 2;
+    }
+    optional Status status = 3;
+}
+// enum of status used in inventory item
+enum Status {
+  available = 0;
+  taken = 1;
+}
+
+// response for CreateBook RPC
+message createBookOutput {
+    string response=1;
+}
+
+// response for GetBook RPC
+message getBookInput {
+    string isbn=1;
+}
+
+
+
